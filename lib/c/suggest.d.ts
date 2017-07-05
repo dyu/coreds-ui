@@ -38,3 +38,4 @@ export declare class Suggest {
 }
 declare const _default: any;
 export default _default;
+export declare function $customize(tpl_suggest_conrols: string): any;
