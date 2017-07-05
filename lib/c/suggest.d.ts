@@ -34,6 +34,7 @@ export declare class Suggest {
     cbFetchFailed: any;
     constructor();
     static created(self: Suggest): void;
+    static mounted(self: Suggest): void;
 }
 declare const _default: any;
 export default _default;
