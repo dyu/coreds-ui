@@ -65,9 +65,9 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
-coreds@>=0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/coreds/-/coreds-0.5.0.tgz#d0b36fa7f92ee672f6db17bb93856ac6dfa44f95"
+coreds@>=0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/coreds/-/coreds-0.6.0.tgz#d49a5d89410af1139f391fbbdab926dd2e7d2428"
   dependencies:
     "@types/numeral" "0.0.16"
     numeral "^1.5.6"
