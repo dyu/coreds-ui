@@ -117,8 +117,11 @@ export class Suggest {
                     .then(self.cbFetchSuccess).then(undefined, self.cbFetchFailed)
             }
         }))
-        attachOptsTo(self['$el'], [`${Flags.SUGGEST}`], pstore.pager, self)
         self.pager = pstore.pager
+    }
+
+    static mounted(self: Suggest) {
+        attachOptsTo(self['$el'], [`${Flags.SUGGEST}`], self.pager, self)
     }
 }
 const item_tpl = /**/`
@@ -127,6 +130,7 @@ const item_tpl = /**/`
 `/**/
 export default component({
     created(this: Suggest) { Suggest.created(this) },
+    mounted(this: Suggest) { Suggest.mounted(this) },
     components: {
         si: {
             name: 'si', props: { pojo: { type: Object, required: true } },

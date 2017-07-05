@@ -6,6 +6,7 @@ import { PojoStore } from 'coreds/lib/pstore/'
 import { ParamRangeKey } from 'coreds/lib/prk'
 import { hidePopup, getPopup } from '../dom_util'
 import * as cal from '../calendar'
+import { attachOptsTo } from '../_pager'
 
 /**
  * 
@@ -263,7 +264,7 @@ export class Calendar {
             cache
         } as Config)
 
-        self.pager = defp(self, 'pstore', new PojoStore(current_entry.array, {
+        let pstore = defp(self, 'pstore', new PojoStore(current_entry.array, {
             desc: true,
             pageSize: 42,
             descriptor: Item.$descriptor,
@@ -293,13 +294,16 @@ export class Calendar {
             page(next: boolean, pager: Pager) {
                 repaint(self, next)
             }
-        })).pager
+        }))
 
         self.month = months[month]
         self.year = year
+        
+        self.pager = pstore.pager
     }
 
     static mounted(self: Calendar) {
+        attachOptsTo(self['$el'], ['0','0','7'], self.pager, self)
         self.pstore.repaint()
     }
 
@@ -318,10 +322,8 @@ export class Calendar {
     }
 }
 const item_tpl = /**/`
-<li v-defp:pager_item="pojo" class="day"
-    v-show="pojo.day"
-    v-sclass:active="(pojo._.lstate & ${PojoListState.SELECTED})"
-    v-pclass:type-="pojo.flags" v-text="pojo.day"></li>
+<li :class="'type-' + pojo.flags + ((pojo._.lstate & ${PojoListState.SELECTED}) ? 'day active' : 'day')"
+    v-show="pojo.day" v-text="pojo.day"></li>
 `/**/
 export default component({
     created(this: Calendar) { Calendar.created(this) },
@@ -329,15 +331,13 @@ export default component({
     ready(this: Calendar) { Calendar.mounted(this) }, // vue 1.0
     components: {
         ci: {
-            name: 'ci',
-            props: {
-                pojo: { type: Object, required: true }
-            },
+            name: 'ci', props: { pojo: { type: Object, required: true } },
+            mounted() { defp(this['$el'], 'pager_item', this['pojo']) },
             template: item_tpl
         }
     },
     template: /**/`
-<ul class="ui calendar" v-pager:0,0,7="pager">
+<ul class="ui calendar">
   <li class="header">
     <span class="l">
       <i class="icon angle-double-left link" @click.prevent="page(false, true)"></i>
