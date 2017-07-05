@@ -3,58 +3,16 @@ import { defp, nullp } from 'coreds/lib/util'
 import { Pager, ItemSO, SelectionFlags, PojoListState, PagerState } from 'coreds/lib/types'
 import { PojoStore } from 'coreds/lib/pstore/'
 import * as prk from 'coreds/lib/prk'
+import * as acr from '../acr'
 import { Flags } from '../_pager'
 import { attachOptsTo } from '../_pager'
-
-export interface PS {
-    /** value = 1, required */
-    ['1']: string
-    /** end = 2, optional */
-    ['2']?: string
-    /** pgstart = 3, optional */
-    ['3']?: string
-    /** prk = 4, required */
-    ['4']: prk.ParamRangeKey
-}
-export function $ps_new(value: string, prk: prk.ParamRangeKey, end?: string, pgstart?: string): PS {
-    return {
-        '1': value,
-        '2': end,
-        '3': pgstart,
-        '4': prk
-    }
-}
-
-export interface ACResult {
-    /** name = 1, required */
-    ['1']: string
-    /** value = 2, required */
-    ['2']: string
-    /** id = 3, optional */
-    ['3']?: number
-}
-function $acr_new(name: string, value: string, id?: number): ACResult {
-    return {
-        '1': name,
-        '2': value,
-        '3': id
-    }
-}
-const $acr_d = {
-    $rfbs: 1, $rfdf: ['1'],
-    $fdf: ['1','3'],
-    '1': {_: 1, t: 3, m: 2, a: 0, $: 'name', $n: 'Name'},
-    '2': {_: 2, t: 2, m: 2, a: 0, $: 'value', $n: 'Value'},
-    '3': {_: 3, t: 10, m: 1, a: 0, $: 'id', $n: 'Id'},
-    $new: $acr_new
-}
 
 var instance: Suggest
 
 export interface Opts {
     str: string
-    fetch(req: PS)
-    onSelect(message: ACResult, flags: SelectionFlags)
+    fetch(req: acr.PS)
+    onSelect(message: acr.ACResult, flags: SelectionFlags)
 }
 
 export function getInstance(): Suggest {
@@ -72,7 +30,7 @@ function cbFetchFailed(this: Suggest, err) {
 
 export class Suggest {
     pager: Pager
-    pstore: PojoStore<ACResult>
+    pstore: PojoStore<acr.ACResult>
     opts: Opts
 
     cbFetchSuccess: any
@@ -92,19 +50,19 @@ export class Suggest {
         let pstore  = defp(self, 'pstore', new PojoStore([], {
             desc: false,
             pageSize: 10,
-            descriptor: $acr_d,
+            descriptor: acr.$d,
             keyProperty: '2',
             createObservable(so: ItemSO, idx: number) {
-                return $acr_new('', '', 0)
+                return acr.$new('', '', 0)
             },
-            onSelect(selected: ACResult, flags: SelectionFlags): number {
+            onSelect(selected: acr.ACResult, flags: SelectionFlags): number {
                 self.opts.onSelect(selected, flags)
                 return 0
             },
             fetch(req: prk.ParamRangeKey, pager: Pager) {
                 let opts = self.opts,
                     val = opts.str.toLowerCase(),
-                    store: PojoStore<ACResult> = pager['store'],
+                    store: PojoStore<acr.ACResult> = pager['store'],
                     startObj,
                     pgstart
 
@@ -113,7 +71,7 @@ export class Suggest {
                     pgstart = pgstart.toLowerCase()
                 }
                 
-                opts.fetch($ps_new(val, req, undefined, pgstart))
+                opts.fetch(acr.$ps_new(val, req, undefined, pgstart))
                     .then(self.cbFetchSuccess).then(undefined, self.cbFetchFailed)
             }
         }))
