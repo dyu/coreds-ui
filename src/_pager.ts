@@ -145,6 +145,14 @@ function itemLookup(target, p?): any {
     return target.pager_item || parent.pager_item || gparent.pager_item || ggparent.pager_item || gggparent.pager_item
 }
 
+function itemLookupTC(target, p?): any {
+    try {
+        return itemLookup(target, p)
+    } catch (e) {
+        return undefined
+    }
+}
+
 var current: Opts
 
 function moveUp(e) {
@@ -190,7 +198,7 @@ function select(self: Opts, e, dbltap: boolean, clickedUpdate: boolean) {
     
     if (trigger) fireEvent(target, 'dtap')*/
     
-    if (!(pojo = itemLookup(target))) return
+    if (!(pojo = itemLookupTC(target))) return
 
     if (pojo.$pager !== (pager = self.pager))
         pager = pojo.$pager
@@ -218,7 +226,7 @@ function swipe(this: Opts, e) {
     current = self
     keymage.setScope('pager')
     
-    if (!(pojo = itemLookup(target))) return
+    if (!(pojo = itemLookupTC(target))) return
 
     if (pojo.$pager !== (pager = self.pager)) {
         pager = pojo.$pager
@@ -260,7 +268,7 @@ function tap(this: Opts, e) {
         suggest: boolean,
         flags: number
     
-    if (!(pojo = itemLookup(e.target))) return
+    if (!(pojo = itemLookupTC(e.target))) return
 
     if (pojo.$pager !== (pager = self.pager)) {
         pager = pojo.$pager
