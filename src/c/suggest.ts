@@ -100,7 +100,7 @@ const tpl_suggest_conrols = /**/`
 <ul class="ui skimped tiny horizontal list">
   <li class="item">
     <div class="ui tiny icon buttons">
-      <button class="ui button" :disabled="0 !== (pager.state & ${PagerState.MASK_RPC_DISABLE}) || 0 === pager.page"
+      <button class="ui button" :disabled="0 !== (pager.state & ${PagerState.LOADING}) || 0 === pager.page"
           @click.prevent="pager.store.repaint((pager.page = 0))">
         <i class="icon angle-double-left"></i>
       </button>
@@ -112,7 +112,7 @@ const tpl_suggest_conrols = /**/`
           @click.prevent="pager.store.pageNextOrLoad(0)">
         <b><i class="icon angle-right"></i></b>
       </button>
-      <button class="ui button" :disabled="0 !== (pager.state & ${PagerState.MASK_RPC_DISABLE}) || pager.page_count === pager.page"
+      <button class="ui button" :disabled="0 !== (pager.state & ${PagerState.LOADING}) || pager.page_count === pager.page"
           @click.prevent="pager.store.repaint((pager.page = pager.page_count))">
         <i class="icon angle-double-right"></i>
       </button>
