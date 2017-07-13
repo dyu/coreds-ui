@@ -1,2 +1,2 @@
 // version
-export default "0.3.2"
+export default "0.4.0"
