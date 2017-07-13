@@ -1,15 +1,32 @@
 import * as keymage from '../keymage'
 import { getPopup, hidePopup } from '../dom_util'
+import { defp } from 'coreds/lib/util'
 
 function handle(e) {
     keymage.clearScope()
     hidePopup(getPopup())
 }
 
+function keyup(this: any, e) {
+    // escape key
+    if (e.which === 27 && this.msg) this.msg = ''
+}
+
 export function bind(this: any) {
     this.el.addEventListener(this.arg || 'focusin', handle, true)
 }
 
-export function unbind(this: any) {
-    this.el.removeEventListener(this.arg || 'focusin', handle)
+export function update(this: any, value: any, oldValue: any) {
+    !oldValue && value && this.el.addEventListener('keyup', defp(this.el, 'clear', keyup.bind(value)))
 }
+
+export function unbind(this: any) {
+    let el = this.el,
+        clear = el.clear
+    el.removeEventListener(this.arg || 'focusin', handle)
+    if (clear) {
+        el.removeEventListener('keyup', clear)
+        el.clear = null
+    }
+}
+
