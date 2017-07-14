@@ -124,7 +124,7 @@ function onSelect(this: Opts, message: acr.ACResult, flags: SelectionFlags) {
     }
 }
 
-function postPS(this: string, req: acr.PS) {
+function postPS(this: string, req: acr.PS, fk?: string) {
     return rpc.post(this, JSON.stringify(req))
 }
 
@@ -328,7 +328,7 @@ function input(this: Opts, e) {
         self.str_fetch = value
         self.disabled = true
         // TODO do not hardcode page size
-        self.fetch(acr.$ps_new(value, prk.$new(false, 11)))
+        self.fetch(acr.$ps_new(value, prk.$new(false, 11)), this.field)
             .then(self.cbFetchSuccess).then(undefined, self.cbFetchFailed)
     }
 }
