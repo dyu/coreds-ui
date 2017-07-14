@@ -1,5 +1,6 @@
 export declare const enum Flags {
     UPDATE = 16,
+    CBFN_AFTER_SET = 32,
 }
 export interface Opts {
     flags: number;
