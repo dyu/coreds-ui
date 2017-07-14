@@ -238,10 +238,10 @@ export class Calendar {
     static created(self: Calendar) {
         instance = self
 
-        let now = new Date(),
-            year = now.getUTCFullYear(),
-            month = now.getUTCMonth(),
-            day = now.getUTCDate(),
+        let date = new Date(),
+            year = date.getFullYear(),
+            month = date.getMonth(),
+            day = date.getDate(),
             today = new Date(year, month, day),
             todayUTC = localToUtc(today.getTime()),
             startDate: cal.YMD = { year, month, day },
