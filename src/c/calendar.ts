@@ -322,7 +322,7 @@ export class Calendar {
     }
 }
 const item_tpl = /**/`
-<li :class="'type-' + pojo.flags + ((pojo._.lstate & ${PojoListState.SELECTED}) ? 'day active' : 'day')"
+<li :class="'type-' + pojo.flags + ((pojo._.lstate & ${PojoListState.SELECTED}) ? ' day active' : ' day')"
     v-show="pojo.day" v-text="pojo.day"></li>
 `/**/
 export default component({
