@@ -140,9 +140,12 @@ export function parseOpts(args: string[]|any, pojo, field: string, fetch: any, c
         len = !args ? 0 : args.length,
         flags = i === len ? 0 : parseInt(args[i++], 10),
         pojo_ = pojo._,
-        descriptor = pojo.$d,
-        $ = descriptor.$,
-        fk = $ ? $[field] : field
+        fk = field
+    
+    if (!pojo_) {
+        pojo_ = pojo
+        fk += '$'
+    }
 
     let opts = {
         flags,
