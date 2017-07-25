@@ -238,7 +238,8 @@ export function chainResolveRelativeElement(el: Element, array: string[], i: num
     return el
 }
 export function resolveElement(el: Element, value: any, vm?: any): any {
-    if (!isNaN(value) || (vm && value.charAt(0) === '$' && !isNaN(value = vm.$get(value))))
+    // check for '$' prefix
+    if (!isNaN(value) || (vm && 36 === value.charCodeAt(0) && !isNaN(value = vm[value.substring(1)])))
         return resolveRelativeElement(el, value)
     else if (value.indexOf('__') !== -1)
         return chainResolveRelativeElement(el, value.split('__'), 0)
