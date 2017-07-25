@@ -317,3 +317,5 @@ keymage.$('pager', ['defmod-left', 'defmod-shift-up'], (e) => { if (current) pag
 keymage.$('pager', ['defmod-right', 'defmod-shift-down'], (e) => { if (current) pageLast(e, current.pager, current) })
 keymage.$('pager', 'shift-space', (e) => { if (current) pageSort(e, current.pager, current) })
 keymage.$('pager', 'defmod-space', (e) => { if (current) pageReload(e, current.pager, current) })
+// same behavior as press
+keymage.$('pager', 'defmod-shift-space', (e) => { var pojo; if (current && (pojo = current.pager.pojo) && pojo['1']) current.pager['store'].select(pojo, SelectionFlags.CLICKED_UPDATE) })
