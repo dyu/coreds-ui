@@ -3,6 +3,8 @@ import { removeClass, addClass, resolveElementArray } from './dom_util'
 export interface Opts {
     type: string
     flags: number
+    focus_id: string
+    focus_el: any
 
     target: any
     array: any
@@ -23,11 +25,14 @@ export function parseOpts(args: string[]|any, target: any, vm, el): Opts {
     let i = 0,
         len = !args ? 0 : args.length,
         type = i === len ? 'click' : args[i++],
-        flags = i === len ? 0 : parseInt(args[i++], 10)
+        flags = i === len ? 0 : parseInt(args[i++], 10),
+        focus_id = i === len ? '' : args[i++]
     
     let opts: Opts = {
         type,
         flags,
+        focus_id,
+        focus_el: null,
 
         target,
         array: null,
@@ -78,6 +83,13 @@ function handler(this: Opts, e) {
     }
 
     addClass(el, 'active')
+    if (this.focus_el) {
+        this.focus_el.focus()
+    } else if (this.focus_id) {
+        this.focus_el = document.getElementById(this.focus_id)
+        this.focus_id = ''
+        this.focus_el && this.focus_el.focus()
+    }
 }
 
 function keyup(this: Opts, e) {
