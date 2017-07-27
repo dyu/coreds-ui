@@ -10,8 +10,13 @@ export interface Opts {
     el: any
 
     handler: any
+    keyup: any
     index: number
     prevIndex: number | null
+}
+
+export const enum ToggleFlags {
+    ESC_ON_PARENT = 1
 }
 
 export function parseOpts(args: string[]|any, target: any, vm, el): Opts {
@@ -30,21 +35,25 @@ export function parseOpts(args: string[]|any, target: any, vm, el): Opts {
         el,
 
         handler: null,
+        keyup: null,
         index: 0,
         prevIndex: null
     }
 
     opts.handler = handler.bind(opts)
     el.addEventListener(type, opts.handler)
+    if ((flags & ToggleFlags.ESC_ON_PARENT))
+        el.parentElement.addEventListener('keyup', (opts.keyup = keyup.bind(opts)))
     return opts
 }
 
 export function cleanup(opts: Opts) {
     opts.el.removeEventListener(opts.type, opts.handler)
+    opts.keyup && opts.el.parentElement.removeEventListener('keyup', opts.keyup)
 }
 
 function handler(this: Opts, e) {
-    e.preventDefault()
+    e && e.preventDefault()
 
     let self = this,
         array = self.array,
@@ -69,4 +78,9 @@ function handler(this: Opts, e) {
     }
 
     addClass(el, 'active')
+}
+
+function keyup(this: Opts, e) {
+    // escape key
+    if (e.which === 27) handler.call(this)
 }
