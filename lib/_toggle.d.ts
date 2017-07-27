@@ -1,6 +1,8 @@
 export interface Opts {
     type: string;
     flags: number;
+    focus_id: string;
+    focus_el: any;
     target: any;
     array: any;
     vm: any;
