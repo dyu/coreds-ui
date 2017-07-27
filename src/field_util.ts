@@ -1,10 +1,17 @@
 import { FieldType } from 'coreds/lib/types'
-import { isIE9 } from './dom_util'
+import { isIE9, addClass, removeClass } from './dom_util'
 import { formatDate, formatTime, formatDateTime } from 'coreds/lib/datetime_util'
 
 export function updateSelect(el, value) {
     // 0 is treated as null (not set).  The first value of enums should at least be 1.
     let v = value ? value.toString() : ''
+    
+    if (!v) {
+        addClass(el, 'empty')
+    } else {
+        removeClass(el, 'empty')
+    }
+    
     if (!isIE9) {
         el.value = v
         return
