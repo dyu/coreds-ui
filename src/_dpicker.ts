@@ -105,15 +105,17 @@ function onSelect(this: Opts, message: Item, flags: SelectionFlags) {
     this.pending = pending
     if (pending) return
     
-    if (!(flags & SelectionFlags.CLICKED_UPDATE))
+    let val = toUTC(getInstance().config),
+        old = this.pojo[this.field],
+        same = val === old,
+        hide = 0 === (flags & SelectionFlags.CLICKED_UPDATE)
+    
+    nextTick(this.focusNT)
+    
+    if (hide || same)
         hidePopup(getPopup())
     
-    let val = toUTC(getInstance().config),
-        old = this.pojo[this.field]
-
-    nextTick(this.focusNT)
-
-    if (val === old)
+    if (same)
         return
     
     if (this.changeNT && this.update)
