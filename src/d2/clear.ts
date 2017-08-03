@@ -10,7 +10,10 @@ function handle(e) {
 
 function keyup(this: any, e) {
     // escape key
-    if (e.which === 27 && this.msg) this.msg = ''
+    if (e.which === 27 && this.msg) {
+        e.stopPropagation()
+        this.msg = ''
+    }
 }
 
 export function inserted(el: any, dir: VNodeDirective, vnode: VNodeWithData) {
