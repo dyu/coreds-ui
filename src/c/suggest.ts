@@ -86,7 +86,7 @@ export class Suggest {
 function tpl(suggest_controls: string) {
     return /**/`
 <div class="suggest">
-  <ul class="ui small divided selection list">
+  <ul class="ui small divided selection hover list">
     <si v-for="pojo in pager.array" :pojo="pojo"></si>
   </ul>
   <div v-show="pager.size > pager.array.length">
