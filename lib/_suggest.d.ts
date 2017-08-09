@@ -3,6 +3,7 @@ export declare const enum Flags {
     CBFN_AFTER_SET = 32,
 }
 export interface Opts {
+    opts: any;
     flags: number;
     pojo: any;
     field: string;
@@ -12,6 +13,7 @@ export interface Opts {
     vm: any;
     el: any;
     pojo_: any;
+    selected: any;
     col_size: number;
     table_flags: number;
     update: boolean;
@@ -31,5 +33,5 @@ export interface Opts {
     input: any;
     keydown: any;
 }
-export declare function parseOpts(args: string[] | any, pojo: any, field: string, fetch: any, cbfn: any, vm: any, el: any): Opts;
+export declare function parseOpts(args: string[] | any, value: any, vm: any, el: any): Opts;
 export declare function cleanup(opts: Opts): void;
