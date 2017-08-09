@@ -126,7 +126,7 @@ const tpl_suggest_conrols = /**/`
 
 const item_tpl = /**/`
 <li :class="(pojo._.lstate & ${PojoListState.SELECTED}) ? 'item active' : 'item'"
-    v-show="(pojo._.lstate & ${PojoListState.INCLUDED})" v-text="pojo['1']"></li>
+    v-show="(pojo._.lstate & ${PojoListState.INCLUDED})" v-text="pojo['3']"></li>
 `/**/
 export default component({
     created(this: Suggest) { Suggest.created(this) },
