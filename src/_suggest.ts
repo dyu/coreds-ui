@@ -105,10 +105,8 @@ function focusNT(this: Opts) {
 
 function onSelect(this: Opts, message: acr.ACResult, flags: SelectionFlags) {
     let self = this,
-        opts = this.opts,
-        nameKey = opts.nk,
-        valueKey = opts.vk,
-        name = nameKey ? message[nameKey] : message[acr.$.name],
+        valueKey = this.opts.vk,
+        name = message[acr.$.name],
         value = valueKey ? message[valueKey] : (message[acr.$.id] || message[acr.$.value])
     
     if (!flags) {
