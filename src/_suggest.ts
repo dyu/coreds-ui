@@ -40,6 +40,7 @@ export const enum Flags {
 }
 
 export interface Opts {
+    opts: any
     flags: number
     pojo: any
     field: string
@@ -49,6 +50,7 @@ export interface Opts {
     vm: any
     el: any
     pojo_: any
+    selected: any
 
     col_size: number
     table_flags: number
@@ -103,15 +105,20 @@ function focusNT(this: Opts) {
 
 function onSelect(this: Opts, message: acr.ACResult, flags: SelectionFlags) {
     let self = this,
-        name = message[acr.$.name],
-        value = message[acr.$.id] || message[acr.$.value]
+        opts = this.opts,
+        nameKey = opts.nk,
+        valueKey = opts.vk,
+        name = nameKey ? message[nameKey] : message[acr.$.name],
+        value = valueKey ? message[valueKey] : (message[acr.$.id] || message[acr.$.value])
+    
     if (!flags) {
+        self.selected = message
         self.pending_name = name
         self.pending_value = value
         self.el.value = name
     } else if (name === self.pojo_[self.fk]) {
         self.pending_name = null
-        self.el.value = name // redudant
+        self.el.value = name // redundant
         addClass(this.el.parentElement, 'suggested')
         nextTick(self.focusNT)
     } else if ((this.flags & Flags.CBFN_AFTER_SET) && this.cbfn) {
@@ -119,8 +126,8 @@ function onSelect(this: Opts, message: acr.ACResult, flags: SelectionFlags) {
         self.pojo_[self.fk] = name
         self.pojo[self.field] = value
         nextTick(self.focusNT)
-        this.cbfn(self.field, value, name)
-    } else if (!this.cbfn || this.cbfn(self.field, value, name)) {
+        this.cbfn(self.field, value, name, message)
+    } else if (!this.cbfn || this.cbfn(self.field, value, name, message)) {
         self.pending_name = null
         self.pojo_[self.fk] = name
         self.pojo[self.field] = value
@@ -135,10 +142,14 @@ function postPS(this: string, req: acr.PS, opts: Opts) {
     return rpc.post(this, JSON.stringify(req))
 }
 
-export function parseOpts(args: string[]|any, pojo, field: string, fetch: any, cbfn, vm, el): Opts {
+export function parseOpts(args: string[]|any, value, vm, el): Opts {
     let i = 0,
         len = !args ? 0 : args.length,
         flags = i === len ? 0 : parseInt(args[i++], 10),
+        pojo = value.pojo,
+        field = value.field as string,
+        fetch = value.fetch,
+        cbfn = value.onSelect,
         pojo_ = pojo._,
         fk = field
     
@@ -148,6 +159,7 @@ export function parseOpts(args: string[]|any, pojo, field: string, fetch: any, c
     }
 
     let opts = {
+        opts: value,
         flags,
         pojo,
         field,
@@ -157,6 +169,7 @@ export function parseOpts(args: string[]|any, pojo, field: string, fetch: any, c
         vm,
         el,
         pojo_,
+        selected: null,
 
         col_size: 0,
         table_flags: 0,
@@ -245,8 +258,8 @@ function focusout(this: Opts, e) {
         } else if ((self.flags & Flags.CBFN_AFTER_SET) && self.cbfn) {
             self.pojo_[self.fk] = name
             self.pojo[self.field] = self.pending_value
-            self.cbfn(self.field, self.pending_value, name)
-        } else if (!self.cbfn || self.cbfn(self.field, self.pending_value, name)) {
+            self.cbfn(self.field, self.pending_value, name, self.selected)
+        } else if (!self.cbfn || self.cbfn(self.field, self.pending_value, name, self.selected)) {
             self.pojo_[self.fk] = name
             self.pojo[self.field] = self.pending_value
         }
@@ -367,8 +380,8 @@ function keydown(this: Opts, e) {
                 self.pojo_[self.fk] = self.pending_name
                 self.pojo[self.field] = self.pending_value
                 self.pending_name = null
-                self.cbfn(self.field, self.pending_value, self.pending_name)
-            } else if (!self.cbfn || self.cbfn(self.field, self.pending_value, self.pending_name)) {
+                self.cbfn(self.field, self.pending_value, self.pending_name, self.selected)
+            } else if (!self.cbfn || self.cbfn(self.field, self.pending_value, self.pending_name, self.selected)) {
                 self.pojo_[self.fk] = self.pending_name
                 self.pojo[self.field] = self.pending_value
                 self.pending_name = null
