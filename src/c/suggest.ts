@@ -53,10 +53,10 @@ export class Suggest {
             descriptor: acr.$d,
             keyProperty: '2',
             createObservable(so: ItemSO, idx: number) {
-                return acr.$new('', '', 0)
+                return {'3': ''}
             },
             onSelect(selected: acr.ACResult, flags: SelectionFlags): number {
-                self.opts.onSelect(selected, flags)
+                self.opts.onSelect(self.pstore.getOriginal(selected), flags)
                 return 0
             },
             fetch(req: prk.ParamRangeKey, pager: Pager) {
