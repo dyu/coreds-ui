@@ -1,26 +1,36 @@
 import { ParamRangeKey } from 'coreds/lib/prk';
+/**
+ * ```
+ *
+ * message ACResult {
+ *   required bytes value = 1;
+ *   optional uint32 id = 2;
+ *   required string name = 3;
+ * }
+ * ```
+ */
 export interface ACResult {
-    /** name = 1, required */
+    /** value = 1, required */
     ['1']: string;
-    /** value = 2, required */
-    ['2']: string;
-    /** id = 3, optional */
-    ['3']?: number;
+    /** id = 2, optional */
+    ['2']?: number;
+    /** name = 3, required */
+    ['3']: string;
 }
 export declare const enum $ {
     /** required: 1 */
-    name = "1",
-    /** required: 2 */
-    value = "2",
-    /** optional: 3 */
-    id = "3",
+    value = "1",
+    /** optional: 2 */
+    id = "2",
+    /** required: 3 */
+    name = "3",
 }
 export declare const enum $0 {
-    name = 1,
-    value = 2,
-    id = 3,
+    value = 1,
+    id = 2,
+    name = 3,
 }
-export declare function $new(name: string, value: string, id?: number): ACResult;
+export declare function $new(value: string, name: string, id?: number): ACResult;
 export declare const $d: {
     $rfbs: number;
     $rfdf: string[];
@@ -30,7 +40,6 @@ export declare const $d: {
         t: number;
         m: number;
         a: number;
-        $: string;
         $n: string;
     };
     '2': {
@@ -38,7 +47,6 @@ export declare const $d: {
         t: number;
         m: number;
         a: number;
-        $: string;
         $n: string;
     };
     '3': {
@@ -46,10 +54,9 @@ export declare const $d: {
         t: number;
         m: number;
         a: number;
-        $: string;
         $n: string;
     };
-    $new: (name: string, value: string, id?: number | undefined) => ACResult;
+    $new: (value: string, name: string, id?: number | undefined) => ACResult;
 };
 export interface PS {
     /** value = 1, required */
