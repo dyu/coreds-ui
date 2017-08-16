@@ -51,7 +51,6 @@ export class Suggest {
             desc: false,
             pageSize: 10,
             descriptor: acr.$d,
-            keyProperty: '2',
             createObservable(so: ItemSO, idx: number) {
                 return {'3': ''}
             },
@@ -89,7 +88,7 @@ function tpl(suggest_controls: string) {
   <ul class="ui small divided selection hover list">
     <si v-for="pojo in pager.array" :pojo="pojo"></si>
   </ul>
-  <div v-show="pager.size > pager.array.length">
+  <div class="controls" v-show="pager.size > pager.array.length">
     ${suggest_controls}
   </div>
 </div>
