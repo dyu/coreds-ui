@@ -1,3 +1,7 @@
+## 0.10.3 (2017-08-16)
+
+* suggest input on keyup (was keydown)
+
 ## 0.10.2 (2017-08-16)
 
 * fix suggest component keyProperty
