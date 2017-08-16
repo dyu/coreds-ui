@@ -1,6 +1,6 @@
 {
   "name": "coreds-ui",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "ui extras for coreds",
   "author": "dyu",
   "main": "lib/index.js",
