@@ -97,29 +97,31 @@ function tpl(suggest_controls: string) {
 }
 
 const tpl_suggest_conrols = /**/`
-<ul class="ui skimped tiny horizontal list">
+<ul class="ui horizontal list">
   <li class="item">
-    <div class="ui tiny icon buttons">
-      <button class="ui button" :disabled="0 !== (pager.state & ${PagerState.LOADING}) || 0 === pager.page"
-          @click.prevent="pager.store.repaint((pager.page = 0))">
-        <i class="icon angle-double-left"></i>
-      </button>
-      <button class="ui button" :disabled="0 !== (pager.state & ${PagerState.MASK_RPC_DISABLE})"
-          @click.prevent="pager.store.pagePrevOrLoad(0)">
-        <b><i class="icon angle-left"></i></b>
-      </button>
-      <button class="ui button" :disabled="0 !== (pager.state & ${PagerState.MASK_RPC_DISABLE}) || 0 === pager.size"
-          @click.prevent="pager.store.pageNextOrLoad(0)">
-        <b><i class="icon angle-right"></i></b>
-      </button>
-      <button class="ui button" :disabled="0 !== (pager.state & ${PagerState.LOADING}) || pager.page_count === pager.page"
-          @click.prevent="pager.store.repaint((pager.page = pager.page_count))">
-        <i class="icon angle-double-right"></i>
-      </button>
-      <span v-show="pager.size">&nbsp;&nbsp;
-        {{ pager.page_from }}{{ pager.page_from === pager.page_to ? ' of ' : (' - ' + pager.page_to + ' of ') }}{{ pager.size }}
-      </span>
-    </div>
+    <button class="stripped" :disabled="0 !== (pager.state & ${PagerState.LOADING}) || 0 === pager.page"
+        @click.prevent="pager.store.repaint((pager.page = 0))">
+      <i class="icon angle-double-left"></i>
+    </button>
+  </li>
+  <li class="item">
+    <button class="stripped" :disabled="0 !== (pager.state & ${PagerState.MASK_RPC_DISABLE})"
+        @click.prevent="pager.store.pagePrevOrLoad(0)">
+      <b><i class="icon angle-left"></i></b>
+    </button>
+  </li>
+  <li class="item">
+    <button class="stripped" :disabled="0 !== (pager.state & ${PagerState.MASK_RPC_DISABLE}) || 0 === pager.size"
+        @click.prevent="pager.store.pageNextOrLoad(0)">
+      <b><i class="icon angle-right"></i></b>
+    </button>
+  <li class="item">
+    <button class="stripped" :disabled="0 !== (pager.state & ${PagerState.LOADING}) || 0 === pager.size || pager.page_count === pager.page"
+        @click.prevent="pager.store.repaint((pager.page = pager.page_count))">
+      <i class="icon angle-double-right"></i>
+    </button>
+  <li class="item" v-show="pager.size">
+    {{ pager.page_from }}{{ pager.page_from === pager.page_to ? ' of ' : (' - ' + pager.page_to + ' of ') }}{{ pager.size }}
   </li>
 </ul>
 `/**/
