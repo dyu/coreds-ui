@@ -79,7 +79,7 @@ export interface Opts {
     focusout: any
     click: any
     input: any
-    keydown: any
+    keyup: any
 }
 
 const emptyArray = []
@@ -193,7 +193,7 @@ export function parseOpts(args: string[]|any, value, vm, el): Opts {
         focusout: null,
         click: null,
         input: null,
-        keydown: null
+        keyup: null
     }
 
     opts.unwatch = vm.$watch(newWatchFn(pojo_, fk), onUpdate.bind(opts))
@@ -209,7 +209,7 @@ export function parseOpts(args: string[]|any, value, vm, el): Opts {
     el.addEventListener('focusout', opts.focusout = focusout.bind(opts))
     el.addEventListener('click', opts.click = click.bind(opts))
     el.addEventListener('input', opts.input = debounce(input.bind(opts), 250))
-    el.addEventListener('keydown', opts.keydown = keydown.bind(opts))
+    el.addEventListener('keyup', opts.keyup = keyup.bind(opts))
 
     return opts
 }
@@ -220,7 +220,7 @@ export function cleanup(opts: Opts) {
     el.removeEventListener('focusout', opts.focusout)
     el.removeEventListener('click', opts.click)
     el.removeEventListener('input', opts.input)
-    el.removeEventListener('keydown', opts.keydown)
+    el.removeEventListener('keyup', opts.keyup)
     opts.unwatch()
 }
 
@@ -359,7 +359,7 @@ function input(this: Opts, e) {
     }
 }
 
-function keydown(this: Opts, e) {
+function keyup(this: Opts, e) {
     let self = this,
         suggest,
         pager
@@ -398,7 +398,8 @@ function keydown(this: Opts, e) {
                 getOwner(self).vmessage['f'+self.field_key] = false
             }*/
             //self.pending_name = null
-            hidePopup(getPopup())
+            if (!hidePopup(getPopup()))
+                return true
             break
         case Keys.LEFT:
             if (!visiblePopup(getPopup())) return true
@@ -438,7 +439,6 @@ function keydown(this: Opts, e) {
             return true
     }
     
-    e.preventDefault()
     e.stopPropagation()
     return false
 }
