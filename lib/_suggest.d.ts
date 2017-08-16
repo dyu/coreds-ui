@@ -31,7 +31,7 @@ export interface Opts {
     focusout: any;
     click: any;
     input: any;
-    keydown: any;
+    keyup: any;
 }
 export declare function parseOpts(args: string[] | any, value: any, vm: any, el: any): Opts;
 export declare function cleanup(opts: Opts): void;
