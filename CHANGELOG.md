@@ -1,3 +1,7 @@
+## 0.10.5 (2017-08-18)
+
+* toggle and focus via refs by default (was id)
+
 ## 0.10.4 (2017-08-18)
 
 * All keyboard listeners changed to keydown (so preventDefault on enter key can work)
