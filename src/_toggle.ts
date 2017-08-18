@@ -3,7 +3,7 @@ import { removeClass, addClass, resolveElementArray } from './dom_util'
 export interface Opts {
     type: string
     flags: number
-    focus_id: string
+    focus_ref: string
     focus_el: any
 
     target: any
@@ -19,7 +19,8 @@ export interface Opts {
 }
 
 export const enum ToggleFlags {
-    ESC_ON_PARENT = 1
+    ESC_ON_PARENT = 1,
+    FOCUS_REF_AS_ID = 2
 }
 
 export function parseOpts(args: string[]|any, target: any, vm, el): Opts {
@@ -27,12 +28,12 @@ export function parseOpts(args: string[]|any, target: any, vm, el): Opts {
         len = !args ? 0 : args.length,
         type = i === len ? 'click' : args[i++],
         flags = i === len ? 0 : parseInt(args[i++], 10),
-        focus_id = i === len ? '' : args[i++]
+        focus_ref = i === len ? '' : args[i++]
     
     let opts: Opts = {
         type,
         flags,
-        focus_id,
+        focus_ref,
         focus_el: null,
 
         target,
@@ -90,9 +91,10 @@ function handler(this: Opts, e) {
     addClass(el, 'active')
     if (this.focus_el) {
         this.focus_el.focus()
-    } else if (this.focus_id) {
-        this.focus_el = document.getElementById(this.focus_id)
-        this.focus_id = ''
+    } else if (this.focus_ref) {
+        this.focus_el = !(this.flags & ToggleFlags.FOCUS_REF_AS_ID) ?
+                this.vm.$refs[this.focus_ref] : document.getElementById(this.focus_ref)
+        this.focus_ref = ''
         this.focus_el && this.focus_el.focus()
     }
 }
