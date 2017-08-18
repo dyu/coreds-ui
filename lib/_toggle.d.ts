@@ -8,9 +8,10 @@ export interface Opts {
     vm: any;
     el: any;
     handler: any;
-    keyup: any;
+    keydown: any;
     index: number;
     prevIndex: number | null;
+    activeIndex: number;
 }
 export declare const enum ToggleFlags {
     ESC_ON_PARENT = 1,
