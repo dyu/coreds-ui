@@ -79,7 +79,7 @@ export interface Opts {
     focusout: any
     click: any
     input: any
-    keyup: any
+    keydown: any
 }
 
 const emptyArray = []
@@ -193,7 +193,7 @@ export function parseOpts(args: string[]|any, value, vm, el): Opts {
         focusout: null,
         click: null,
         input: null,
-        keyup: null
+        keydown: null
     }
 
     opts.unwatch = vm.$watch(newWatchFn(pojo_, fk), onUpdate.bind(opts))
@@ -209,7 +209,7 @@ export function parseOpts(args: string[]|any, value, vm, el): Opts {
     el.addEventListener('focusout', opts.focusout = focusout.bind(opts))
     el.addEventListener('click', opts.click = click.bind(opts))
     el.addEventListener('input', opts.input = debounce(input.bind(opts), 250))
-    el.addEventListener('keyup', opts.keyup = keyup.bind(opts))
+    el.addEventListener('keydown', opts.keydown = keydown.bind(opts))
 
     return opts
 }
@@ -220,7 +220,7 @@ export function cleanup(opts: Opts) {
     el.removeEventListener('focusout', opts.focusout)
     el.removeEventListener('click', opts.click)
     el.removeEventListener('input', opts.input)
-    el.removeEventListener('keyup', opts.keyup)
+    el.removeEventListener('keydown', opts.keydown)
     opts.unwatch()
 }
 
@@ -359,7 +359,7 @@ function input(this: Opts, e) {
     }
 }
 
-function keyup(this: Opts, e) {
+function keydown(this: Opts, e) {
     let self = this,
         suggest,
         pager
@@ -368,6 +368,7 @@ function keyup(this: Opts, e) {
         //    return self._input(e)
         case Keys.ENTER:
             // do not propagate the enter key event
+            e.preventDefault()
             suggest = getInstance()
             if (self !== suggest.opts && self.cache.length) {
                 // show your results.

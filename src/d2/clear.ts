@@ -8,7 +8,7 @@ function handle(e) {
     hidePopup(getPopup())
 }
 
-function keyup(this: any, e) {
+function keydown(this: any, e) {
     // escape key
     if (e.which === 27 && this.msg) {
         e.stopPropagation()
@@ -19,14 +19,14 @@ function keyup(this: any, e) {
 export function inserted(el: any, dir: VNodeDirective, vnode: VNodeWithData) {
     let value = dir.value
     el.addEventListener(dir.arg || 'focusin', handle, true)
-    value && el.addEventListener('keyup', defp(el, 'clear', keyup.bind(value)))
+    value && el.addEventListener('keydown', defp(el, 'clear', keydown.bind(value)))
 }
 
 export function unbind(el: any, dir: VNodeDirective, vnode: VNodeWithData) {
     let clear = el.clear
     el.removeEventListener(dir.arg || 'focusin', handle)
     if (clear) {
-        el.removeEventListener('keyup', clear)
+        el.removeEventListener('keydown', clear)
         el.clear = null
     }
 }

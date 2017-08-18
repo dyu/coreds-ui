@@ -10,11 +10,12 @@ export interface Opts {
     array: any
     vm: any
     el: any
-
+    
     handler: any
-    keyup: any
+    keydown: any
     index: number
     prevIndex: number | null
+    activeIndex: number
 }
 
 export const enum ToggleFlags {
@@ -38,23 +39,24 @@ export function parseOpts(args: string[]|any, target: any, vm, el): Opts {
         array: null,
         vm,
         el,
-
+        
         handler: null,
-        keyup: null,
+        keydown: null,
         index: 0,
-        prevIndex: null
+        prevIndex: null,
+        activeIndex: -1
     }
 
     opts.handler = handler.bind(opts)
     el.addEventListener(type, opts.handler)
     if ((flags & ToggleFlags.ESC_ON_PARENT))
-        el.parentElement.addEventListener('keyup', (opts.keyup = keyup.bind(opts)))
+        el.parentElement.addEventListener('keydown', (opts.keydown = keydown.bind(opts)))
     return opts
 }
 
 export function cleanup(opts: Opts) {
     opts.el.removeEventListener(opts.type, opts.handler)
-    opts.keyup && opts.el.parentElement.removeEventListener('keyup', opts.keyup)
+    opts.keydown && opts.el.parentElement.removeEventListener('keydown', opts.keydown)
 }
 
 function handler(this: Opts, e) {
@@ -70,10 +72,13 @@ function handler(this: Opts, e) {
     
     if (self.prevIndex !== null) {
         el = array[self.prevIndex]
-        if (removeClass(el, 'active') && 1 === array.length) return
+        if (removeClass(el, 'active') && 1 === array.length) {
+            self.activeIndex = -1
+            return
+        }
     }
 
-    self.prevIndex = self.index
+    self.prevIndex = self.activeIndex = self.index
     el = array[self.index]
 
     if (1 === array.length) {
@@ -81,7 +86,7 @@ function handler(this: Opts, e) {
     } else if (++self.index === array.length) {
         self.index = 0
     }
-
+    
     addClass(el, 'active')
     if (this.focus_el) {
         this.focus_el.focus()
@@ -92,7 +97,7 @@ function handler(this: Opts, e) {
     }
 }
 
-function keyup(this: Opts, e) {
+function keydown(this: Opts, e) {
     // escape key
-    if (e.which === 27) handler.call(this)
+    if (e.which === 27 && this.activeIndex !== -1) handler.call(this)
 }

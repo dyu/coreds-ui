@@ -7,7 +7,7 @@ function handle(e) {
     hidePopup(getPopup())
 }
 
-function keyup(this: any, e) {
+function keydown(this: any, e) {
     // escape key
     if (e.which === 27 && this.msg) {
         e.stopPropagation()
@@ -20,7 +20,7 @@ export function bind(this: any) {
 }
 
 export function update(this: any, value: any, oldValue: any) {
-    !oldValue && value && this.el.addEventListener('keyup', defp(this.el, 'clear', keyup.bind(value)))
+    !oldValue && value && this.el.addEventListener('keydown', defp(this.el, 'clear', keydown.bind(value)))
 }
 
 export function unbind(this: any) {
@@ -28,7 +28,7 @@ export function unbind(this: any) {
         clear = el.clear
     el.removeEventListener(this.arg || 'focusin', handle)
     if (clear) {
-        el.removeEventListener('keyup', clear)
+        el.removeEventListener('keydown', clear)
         el.clear = null
     }
 }
