@@ -36,7 +36,8 @@ function toggleSuggest(suggest, self: Opts, p?: any): boolean {
 
 export const enum Flags {
     UPDATE = 16,
-    CBFN_AFTER_SET = 32
+    CBFN_AFTER_SET = 32,
+    CBFN_ON_UNSET = 64
 }
 
 export interface Opts {
@@ -275,6 +276,7 @@ function focusout(this: Opts, e) {
         // unset
         self.pojo_[self.fk] = null
         self.pojo[self.field] = null
+        0 !== (self.flags & Flags.CBFN_ON_UNSET) && self.cbfn(self.field, null, null)
     }
 
     //if (self === suggest.opts)
