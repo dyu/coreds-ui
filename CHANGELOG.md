@@ -1,3 +1,7 @@
+## 0.10.7 (2017-08-22)
+
+* suggest callback on unset
+
 ## 0.10.6 (2017-08-22)
 
 * unified callback signature (field, value, message)
