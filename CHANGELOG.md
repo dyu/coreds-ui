@@ -1,3 +1,7 @@
+## 0.10.6 (2017-08-22)
+
+* unified callback signature (field, value, message)
+
 ## 0.10.5 (2017-08-18)
 
 * toggle and focus via refs by default (was id)
