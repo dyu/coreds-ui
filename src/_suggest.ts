@@ -124,8 +124,8 @@ function onSelect(this: Opts, message: acr.ACResult, flags: SelectionFlags) {
         self.pojo_[self.fk] = name
         self.pojo[self.field] = value
         nextTick(self.focusNT)
-        this.cbfn(self.field, value, name, message)
-    } else if (!this.cbfn || this.cbfn(self.field, value, name, message)) {
+        this.cbfn(self.field, value, message)
+    } else if (!this.cbfn || this.cbfn(self.field, value, message)) {
         self.pending_name = null
         self.pojo_[self.fk] = name
         self.pojo[self.field] = value
@@ -256,8 +256,8 @@ function focusout(this: Opts, e) {
         } else if ((self.flags & Flags.CBFN_AFTER_SET) && self.cbfn) {
             self.pojo_[self.fk] = name
             self.pojo[self.field] = self.pending_value
-            self.cbfn(self.field, self.pending_value, name, self.selected)
-        } else if (!self.cbfn || self.cbfn(self.field, self.pending_value, name, self.selected)) {
+            self.cbfn(self.field, self.pending_value, self.selected)
+        } else if (!self.cbfn || self.cbfn(self.field, self.pending_value, self.selected)) {
             self.pojo_[self.fk] = name
             self.pojo[self.field] = self.pending_value
         }
@@ -379,8 +379,8 @@ function keydown(this: Opts, e) {
                 self.pojo_[self.fk] = self.pending_name
                 self.pojo[self.field] = self.pending_value
                 self.pending_name = null
-                self.cbfn(self.field, self.pending_value, self.pending_name, self.selected)
-            } else if (!self.cbfn || self.cbfn(self.field, self.pending_value, self.pending_name, self.selected)) {
+                self.cbfn(self.field, self.pending_value, self.selected)
+            } else if (!self.cbfn || self.cbfn(self.field, self.pending_value, self.selected)) {
                 self.pojo_[self.fk] = self.pending_name
                 self.pojo[self.field] = self.pending_value
                 self.pending_name = null
