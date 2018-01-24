@@ -1,3 +1,7 @@
+## 1.0.0 (2018-01-24)
+
+* Use `nextTick` from `coreds-1.0.x`
+
 ## 0.10.7 (2017-08-22)
 
 * suggest callback on unset

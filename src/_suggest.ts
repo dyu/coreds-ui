@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick } from 'coreds/lib/util'
 import { SelectionType, SelectionFlags } from 'coreds/lib/types'
 //import { ds } from 'coreds/lib/ds/'
 import * as rpc from 'coreds/lib/rpc/'

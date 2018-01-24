@@ -167,22 +167,6 @@ export function toggleClass(el: Element, cls: string) {
     }
 }
 
-/*export function toggleActive(el) {
-    if (removeClass(el, 'active')) {
-        var vm = el.__vue__ || getFirstVm(el)
-        if (vm && vm.handle(2))
-            vm.$broadcast('vui', 2)
-        if (el.className === 'modal' || el.className === 'dropdown')
-            document.modalId = null
-    } else {
-        if (el.className === 'modal' || el.className === 'dropdown')
-            document.modalId = el.id
-        addClass(el, 'active')
-        var vm = el.__vue__ || getFirstVm(el)
-        if (vm && vm.handle(1))
-            vm.$broadcast('vui', 1)
-    }
-}*/
 export function getLastChildElement(el): any {
     return el.childElementCount ? el.children[el.childElementCount - 1] : null
 }
@@ -440,75 +424,4 @@ export function debounce(func, wait: number, immediate?: boolean): any {
         if (callNow) func.apply(context, args)
     }
 }
-
-/*var modalId
-export const popup = document.getElementById('popup')
-export function handle(type) {
-    if (modalId) {
-        document.modalId = modalId
-        modalId = null
-    }
-    return false
-}
-export const handlerObj = { handle: handle }
-
-export function deactivate() {
-    var el = document.getElementById(document.modalId)
-    document.modalId = null
-    
-    if(el) {
-        removeClass(el, 'active')
-        var prev = el.previousElementSibling
-        if (prev && el.className === 'modal' && prev.className === 'modal-close') {
-            fireEvent(prev, 'click')
-        } else {
-            var vm = el.__vue__ || getFirstVm(el)
-            if(vm && vm.handle(2)) vm.$broadcast('vui', 2)
-        }
-    }
-}
-export function hidePopup(conditional): boolean {
-    if (conditional && document.modalId !== 'popup') return false
-    
-    popup.style.visibility = 'hidden'
-    removeClass(popup, 'active')
-    
-    document.modalId = modalId
-    modalId = null
-    
-    return true
-}
-export function showPopup(el, elTo) {
-    popup.replaceChild(el, popup.firstChild)
-    addClass(popup, 'active')
-    util.popTo(elTo || el, popup)
-    
-    if (document.modalId !== 'popup') {
-        modalId = document.modalId
-        document.modalId = 'popup'
-    }
-}
-export function togglePopup(el, elTo): boolean {
-    if (document.modalId === 'popup') return !hidePopup()
-    
-    showPopup(el, elTo)
-    return true
-}
-export function isPopupShown(): boolean {
-    return document.modalId === 'popup'
-}
-
-document.addEventListener('keyup', function(e) {
-    if (e.keyCode === 27 && document.modalId) util.deactivate()
-})
-
-document.addEventListener('click', function(e) {
-    if (!document.modalId) return
-    
-    var el = e.target
-    if (el.className === 'modal active' || 
-        (document.modalId === 'popup' && !el.$with_popup && el.tagName !== 'SELECT')) {
-        util.deactivate()
-    }
-})*/
 

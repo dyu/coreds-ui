@@ -1,6 +1,5 @@
-import { nextTick } from 'vue'
 import { Calendar, Config, Item, getInstance, update, goto } from './c/calendar'
-import { localToUtc } from 'coreds/lib/util'
+import { localToUtc, nextTick } from 'coreds/lib/util'
 import { formatDate } from 'coreds/lib/datetime_util'
 import { Pager, SelectionFlags } from 'coreds/lib/types'
 import { Keys, getPopup, hidePopup, showPopup, visiblePopup, fireEvent } from './dom_util'
