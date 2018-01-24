@@ -13,9 +13,10 @@ export interface Opts {
     fields: string[]
     vm: any
     el: any
-    fn?: string
+    fn: any
     //target?: any
-
+    
+    cb: any
     str: string
     array: any
     target_array: any
@@ -23,7 +24,7 @@ export interface Opts {
     change: any
 }
 
-export function parseOpts(args: string[]|any, pager: Pager, fields: string[], fn: string|undefined/*, target: string|undefined*/, vm ,el): Opts {
+export function parseOpts(args: string[]|any, pager: Pager, fields: string[], fn: any/*, target: string|undefined*/, vm ,el): Opts {
     let i = 0,
         len = !args ? 0 : args.length,
         flags = i === len ? 0 : parseInt(args[i++], 10)
@@ -38,6 +39,7 @@ export function parseOpts(args: string[]|any, pager: Pager, fields: string[], fn
         fn,
         //target,
 
+        cb: typeof fn === 'function' && fn,
         str: '',
         array: null,
         target_array: null,
@@ -57,7 +59,7 @@ export function cleanup(opts: Opts) {
 function change(this: Opts, e) {
     let el = this.el,
         value = el.value.trim(),
-        fn = this.fn,
+        cb = this.cb,
         pager = this.pager,
         store: PojoStore<any> = pager['store']
 
@@ -67,14 +69,18 @@ function change(this: Opts, e) {
         if (value === this.str) return
     }
     
+    if (cb === undefined) {
+        this.cb = cb = !this.fn ? null : this.vm[this.fn]
+    }
+    
     this.str = value
     if (!value) {
         // TODO
         /*if (util.isFlagSet(param, 1)) {
 
         }*/
-        if (fn)
-            this.vm[fn](0)
+        
+        cb && cb(0)
         
         pager.state ^= PagerState.LOCAL_SEARCH
         store.replace(this.target_array, SelectionType.RETAIN)
@@ -90,10 +96,10 @@ function change(this: Opts, e) {
     /*if (util.isFlagSet(param, 2)) {
 
     }*/
-
+    
     let target_array = this.target_array
     if (!target_array) {
-        this.target_array = target_array = fn && this.vm[fn](1) || store.array
+        this.target_array = target_array = cb && cb(1) || store.array
     }
     
     let result_array = search(value, this, target_array)

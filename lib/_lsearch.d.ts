@@ -8,11 +8,12 @@ export interface Opts {
     fields: string[];
     vm: any;
     el: any;
-    fn?: string;
+    fn: any;
+    cb: any;
     str: string;
     array: any;
     target_array: any;
     change: any;
 }
-export declare function parseOpts(args: string[] | any, pager: Pager, fields: string[], fn: string | undefined, vm: any, el: any): Opts;
+export declare function parseOpts(args: string[] | any, pager: Pager, fields: string[], fn: any, vm: any, el: any): Opts;
 export declare function cleanup(opts: Opts): void;

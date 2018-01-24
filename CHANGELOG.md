@@ -1,3 +1,7 @@
+## 1.0.1 (2018-01-24)
+
+* Allow passing a function callback to `lsearch`
+
 ## 1.0.0 (2018-01-24)
 
 * Use `nextTick` from `coreds-1.0.x`
