@@ -21,12 +21,12 @@
   },
   "devDependencies": {
     "@types/vue": "^1.0.31",
-    "coreds": ">=0.10.0",
+    "coreds": "^1.0.0",
     "typescript": "2.4.2",
     "vue": "^1.0.28"
   },
   "peerDependencies": {
-    "coreds": ">=0.10.0",
+    "coreds": "^1.0.0",
     "vue": "^1.0.28 || ^2.0.0"
   }
 }
