@@ -145,7 +145,8 @@ export function removeClass (el: Element, cls: string): boolean {
     }
     return removed
 }
-export function toggleClass(el: Element, cls: string) {
+export function toggleClass(el: Element, cls: string): boolean {
+    let removed = false
     if (hasClassList) {
         let classList = el.classList, 
             len = classList.length
@@ -153,11 +154,12 @@ export function toggleClass(el: Element, cls: string) {
         classList.remove(cls)
         if (len === classList.length)
             classList.add(cls)
+        else
+            removed = true
     } else {
         let className = el.className,
             cur = ' ' + className + ' ',
-            tar = ' ' + cls + ' ',
-            removed = false
+            tar = ' ' + cls + ' '
         
         while (cur.indexOf(tar) >= 0) {
             cur = cur.replace(tar, ' ')
@@ -165,6 +167,8 @@ export function toggleClass(el: Element, cls: string) {
         }
         setClass(el, removed ? cur.trim() : className + ' ' + cls)
     }
+    
+    return !removed
 }
 
 export function getLastChildElement(el): any {

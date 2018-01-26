@@ -1,3 +1,7 @@
+## 1.0.2 (2018-01-26)
+
+* Make `toggleClass` return true when activated
+
 ## 1.0.1 (2018-01-24)
 
 * Allow passing a function callback to `lsearch`
