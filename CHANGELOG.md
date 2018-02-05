@@ -1,3 +1,7 @@
+## 1.0.3 (2018-02-05)
+
+* An element inside a Pager with `data-dbclick` will fire a dblclick event on press event.
+
 ## 1.0.2 (2018-01-26)
 
 * Make `toggleClass` return true when activated

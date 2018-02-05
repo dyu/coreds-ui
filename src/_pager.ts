@@ -8,7 +8,7 @@ import {
     screen, table_compact_columns, 
 } from './screen_util'
 
-import { isInput, resolveElement, removeClass } from './dom_util'
+import { isInput, resolveElement, removeClass, fireEvent } from './dom_util'
 
 import {
     listUp, listDown,
@@ -193,12 +193,13 @@ function select(self: Opts, e, dbltap: boolean, clickedUpdate: boolean) {
     var target = e.target, 
         pojo,
         pager: Pager,
-        store: PojoStore<any>/*,
-        trigger = target.getAttribute('dtap') || (target=parent).getAttribute('dtap')
+        store: PojoStore<any>,
+        pressValue
     
-    if (trigger) fireEvent(target, 'dtap')*/
-    
-    if (!(pojo = itemLookupTC(target))) return
+    if (!(pojo = itemLookupTC(target))) {
+        clickedUpdate && (pressValue = target.dataset.press) && fireEvent(target, pressValue)
+        return
+    }
 
     if (pojo.$pager !== (pager = self.pager))
         pager = pojo.$pager
@@ -206,6 +207,8 @@ function select(self: Opts, e, dbltap: boolean, clickedUpdate: boolean) {
     store = pager['store']
 
     store.select(pojo, clickedUpdate ? SelectionFlags.CLICKED_UPDATE : SelectionFlags.CLICKED, pojo.$index)
+    
+    clickedUpdate && (pressValue = target.dataset.press) && fireEvent(target, pressValue)
 }
 
 // =====================================
