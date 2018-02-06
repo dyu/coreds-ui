@@ -1,3 +1,7 @@
+## 1.0.5 (2018-02-06)
+
+* Cleanup class utils
+
 ## 1.0.4 (2018-02-06)
 
 * `data-focus` in combination with `data-press`

@@ -22,12 +22,19 @@ export interface LazyEl {
 export declare function focus(id: string): void;
 export declare function bindFocus(id: string): any;
 export declare function setClass(el: any, cls: string): void;
-export declare function addClass(el: any, cls: string): void;
-export declare function isInput(el: Element): boolean;
-export declare function findupClass(el: any, cls: string, limit: number): Element | null;
 export declare function hasClass(el: Element, cls: string): boolean;
+/**
+ * For IE9 compat: when both class and :class are present
+ * getAttribute('class') returns wrong value...
+ *
+ * @param {Element} el
+ * @return {String}
+ */
+export declare function addClass(el: any, cls: string): boolean;
 export declare function removeClass(el: Element, cls: string): boolean;
 export declare function toggleClass(el: Element, cls: string): boolean;
+export declare function isInput(el: Element): boolean;
+export declare function findupClass(el: any, cls: string, limit: number): Element | null;
 export declare function getLastChildElement(el: any): any;
 export declare function getFirstChildElement(el: any): any;
 export declare function resolveRelativeElement(el: any, str: string): any;

@@ -72,6 +72,14 @@ export function setClass(el, cls: string) {
     }
 }
 
+function containsClass(className: string, cls: string) {
+    return -1 !== (' ' + className + ' ').indexOf(' ' + cls + ' ')
+}
+
+export function hasClass(el: Element, cls: string): boolean {
+    return hasClassList ? el.classList.contains(cls) : containsClass(el.className, cls)
+}
+
 /**
  * For IE9 compat: when both class and :class are present
  * getAttribute('class') returns wrong value...
@@ -79,21 +87,84 @@ export function setClass(el, cls: string) {
  * @param {Element} el
  * @return {String}
  */
-function getClass (el) {
+/*function getClass (el) {
     let className = el.className
     return typeof className !== 'object' ? className : (className.baseVal || '')
-}
+}*/
 
 //export const { addClass } = Vue.util
-export function addClass (el, cls: string) {
-    if (el.classList) {
-        el.classList.add(cls)
-    } else {
-        var cur = ' ' + getClass(el) + ' '
-        if (cur.indexOf(' ' + cls + ' ') < 0) {
-            setClass(el, (cur + cls).trim())
-        }
+export function addClass (el, cls: string): boolean {
+    let added = false,
+        target,
+        existing
+    if (hasClassList) {
+        target = el.classList
+        existing = target.length
+        
+        target.add(cls)
+        added = existing !== target.length
+    } else if (!containsClass(target = el.className, cls)) {
+        setClass(el, target + ' ' + cls)
+        added = true
     }
+    
+    return added
+}
+export function removeClass (el: Element, cls: string): boolean {
+    let removed = false,
+        target,
+        existing
+    if (hasClassList) {
+        target = el.classList
+        existing = target.length
+        
+        target.remove(cls)
+        removed = existing !== target.length
+        removed && existing === 1 && el.removeAttribute('class')
+    } else {
+        target = ' ' + cls + ' '
+        existing = ' ' + el.className + ' '
+        
+        while (-1 !== existing.indexOf(target)) {
+            existing = existing.replace(target, ' ')
+            removed = true
+        }
+        
+        removed && setClass(el, existing.trim())
+    }
+    
+    return removed
+}
+export function toggleClass(el: Element, cls: string): boolean {
+    let removed = false,
+        target,
+        existing,
+        className
+    if (hasClassList) {
+        target = el.classList
+        existing = target.length
+        
+        target.remove(cls)
+        removed = existing !== target.length
+        if (!removed) {
+            target.add(cls)
+        } else if (existing === 1) {
+            el.removeAttribute('class')
+        }
+    } else {
+        className = el.className
+        target = ' ' + cls + ' '
+        existing = ' ' + className + ' '
+        
+        while (-1 !== existing.indexOf(target)) {
+            existing = existing.replace(target, ' ')
+            removed = true
+        }
+        
+        setClass(el, removed ? existing.trim() : className + ' ' + cls)
+    }
+    
+    return !removed
 }
 
 export function isInput(el: Element): boolean {
@@ -113,62 +184,6 @@ export function findupClass(el: any, cls: string, limit: number): Element|null {
         } while (--limit > 0)
     }
     return null
-}
-export function hasClass(el: Element, cls: string): boolean {
-    if (hasClassList)
-        return el.classList.contains(cls)
-    
-    let str = ' ' + el.className + ' '
-    return str.indexOf(' ' + cls + ' ') !== -1
-}
-export function removeClass (el: Element, cls: string): boolean {
-    let removed: boolean
-    if (hasClassList) {
-        let classList = el.classList, 
-            len = classList.length
-        
-        classList.remove(cls)
-        removed = len > classList.length
-        if (removed && len === 1)
-            el.removeAttribute('class')
-    } else {
-        let cur = ' ' + el.className + ' ',
-            tar = ' ' + cls + ' '
-        
-        removed = false
-        while (cur.indexOf(tar) >= 0) {
-            cur = cur.replace(tar, ' ')
-            removed = true
-        }
-        if (removed)
-            setClass(el, cur.trim())
-    }
-    return removed
-}
-export function toggleClass(el: Element, cls: string): boolean {
-    let removed = false
-    if (hasClassList) {
-        let classList = el.classList, 
-            len = classList.length
-        
-        classList.remove(cls)
-        if (len === classList.length)
-            classList.add(cls)
-        else
-            removed = true
-    } else {
-        let className = el.className,
-            cur = ' ' + className + ' ',
-            tar = ' ' + cls + ' '
-        
-        while (cur.indexOf(tar) >= 0) {
-            cur = cur.replace(tar, ' ')
-            removed = true
-        }
-        setClass(el, removed ? cur.trim() : className + ' ' + cls)
-    }
-    
-    return !removed
 }
 
 export function getLastChildElement(el): any {
