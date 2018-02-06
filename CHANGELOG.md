@@ -1,3 +1,7 @@
+## 1.0.4 (2018-02-06)
+
+* `data-focus` in combination with `data-press`
+
 ## 1.0.3 (2018-02-05)
 
 * An element inside a Pager with `data-press` will fire the mapped event.

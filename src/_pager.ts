@@ -18,7 +18,7 @@ import {
     pageNextOrLoad, pagePrevOrLoad
 } from './pager_util'
 
-import { defp } from 'coreds/lib/util'
+import { defp, nextTick } from 'coreds/lib/util'
 import { Pager, SelectionFlags } from 'coreds/lib/types'
 import { PojoStore } from 'coreds/lib/pstore/'
 
@@ -189,6 +189,24 @@ function moveDown(e) {
         listDown(pager, pager.index_selected, e, current.flags)
 }
 
+function $focus(this: any) {
+    this.focus()
+}
+
+function trigger(self: Opts, el: any, ev: string) {
+    let focusValue = el.dataset.focus,
+        focusFn
+    fireEvent(el, ev)
+    if (!focusValue || null === (focusFn = el['d_focus'])) return
+    
+    if (undefined === focusFn) {
+        defp(el, 'd_focus', !(el = resolveElement(el, focusValue, self.vm)) ? null : (focusFn = $focus.bind(el)))
+        focusFn && nextTick(focusFn)
+    } else {
+        nextTick(focusFn)
+    }
+}
+
 function select(self: Opts, e, dbltap: boolean, clickedUpdate: boolean) {
     var target = e.target, 
         pojo,
@@ -197,7 +215,7 @@ function select(self: Opts, e, dbltap: boolean, clickedUpdate: boolean) {
         pressValue
     
     if (!(pojo = itemLookupTC(target))) {
-        clickedUpdate && (pressValue = target.dataset.press) && fireEvent(target, pressValue)
+        clickedUpdate && (pressValue = target.dataset.press) && trigger(self, target, pressValue)
         return
     }
 
@@ -208,7 +226,7 @@ function select(self: Opts, e, dbltap: boolean, clickedUpdate: boolean) {
 
     store.select(pojo, clickedUpdate ? SelectionFlags.CLICKED_UPDATE : SelectionFlags.CLICKED, pojo.$index)
     
-    clickedUpdate && (pressValue = target.dataset.press) && fireEvent(target, pressValue)
+    clickedUpdate && (pressValue = target.dataset.press) && trigger(self, target, pressValue)
 }
 
 // =====================================
