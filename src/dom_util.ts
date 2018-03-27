@@ -19,28 +19,47 @@ export const enum Keys {
 
 var popup_
 
+export function setPopup(p) {
+    if (p && popup_ === undefined)
+        popup_ = p
+}
+
+function newPopup(el) {
+    return {
+        visible(): boolean {
+            return hasClass(el, 'active')
+        },
+        hide(): boolean {
+            return removeClass(el, 'active')
+        },
+        show(contentEl, positionEl) {
+            let style = el.style
+            style.visibility = 'hidden'
+            el.replaceChild(contentEl, el.firstChild)
+            addClass(el, 'active')
+            positionTo(positionEl, el)
+            style.visibility = 'visible'
+        }
+    }
+}
+
 export function getPopup(): any {
-    return popup_ || (popup_ = document.getElementById('popup'))
+    return popup_ || (popup_ = newPopup(document.getElementById('popup')))
 }
 
 /**
  * Returns true if the popup is visible.
  */
 export function visiblePopup(popup): boolean {
-    return hasClass(popup, 'active')
+    return popup_.visible()
 }
 
 export function hidePopup(popup): boolean {
-    return removeClass(popup, 'active')
+    return popup_.hide()
 }
 
 export function showPopup(popup, contentEl, positionEl) {
-    let style = popup.style
-    style.visibility = 'hidden'
-    popup.replaceChild(contentEl, popup.firstChild)
-    addClass(popup, 'active')
-    positionTo(positionEl, popup)
-    style.visibility = 'visible'
+    popup_.show(contentEl, positionEl)
 }
 
 export interface LazyEl {

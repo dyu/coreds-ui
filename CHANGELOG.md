@@ -1,3 +1,7 @@
+## 1.0.6 (2018-03-27)
+
+* Pluggable popup
+
 ## 1.0.5 (2018-02-06)
 
 * Cleanup class utils

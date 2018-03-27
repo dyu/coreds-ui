@@ -8,6 +8,7 @@ export declare const enum Keys {
     RIGHT = 39,
     DOWN = 40,
 }
+export declare function setPopup(p: any): void;
 export declare function getPopup(): any;
 /**
  * Returns true if the popup is visible.
