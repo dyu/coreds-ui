@@ -1,7 +1,3 @@
-declare function require(path: string): any;
-
-const Hammer = require('hammerjs')
-
 import * as keymage from './keymage'
 
 import {
@@ -21,6 +17,10 @@ import {
 import { defp, nextTick } from 'coreds/lib/util'
 import { Pager, SelectionFlags } from 'coreds/lib/types'
 import { PojoStore } from 'coreds/lib/pstore/'
+
+import * as hammer_ from 'hammerjs'
+let Hammer = hammer_['default']
+if (typeof Hammer !== 'function') Hammer = window['Hammer']
 
 export const enum Flags {
     UPDATE = 16,
