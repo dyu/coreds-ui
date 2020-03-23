@@ -1,7 +1,7 @@
 export declare const enum ScreenFlags {
     PL = 1,
     LAP = 2,
-    DESK = 4,
+    DESK = 4
 }
 export declare const screen: {
     pl: string;

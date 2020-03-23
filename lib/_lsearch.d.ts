@@ -1,6 +1,6 @@
 import { Pager } from 'coreds/lib/types';
 export declare const enum Flags {
-    SELECT_FROM_PARENT = 8,
+    SELECT_FROM_PARENT = 8
 }
 export interface Opts {
     flags: number;

@@ -23,12 +23,12 @@ export declare const enum $ {
     /** optional: 2 */
     id = "2",
     /** required: 3 */
-    name = "3",
+    name = "3"
 }
 export declare const enum $0 {
     value = 1,
     id = 2,
-    name = 3,
+    name = 3
 }
 export declare function $new(value: string, name: string, id?: number): ACResult;
 export declare const $d: {
@@ -56,7 +56,7 @@ export declare const $d: {
         a: number;
         $n: string;
     };
-    $new: (value: string, name: string, id?: number | undefined) => ACResult;
+    $new: typeof $new;
 };
 export interface PS {
     /** value = 1, required */

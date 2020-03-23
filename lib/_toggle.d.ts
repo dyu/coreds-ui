@@ -15,7 +15,7 @@ export interface Opts {
 }
 export declare const enum ToggleFlags {
     ESC_ON_PARENT = 1,
-    FOCUS_REF_AS_ID = 2,
+    FOCUS_REF_AS_ID = 2
 }
 export declare function parseOpts(args: string[] | any, target: any, vm: any, el: any): Opts;
 export declare function cleanup(opts: Opts): void;

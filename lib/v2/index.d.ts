@@ -151,7 +151,7 @@ export declare class VNode {
     isComment: boolean;
     constructor(tag?: string, data?: VNodeData, children?: Array<VNode> | void, text?: string, elm?: Node, ns?: string | void, context?: Component, componentOptions?: VNodeComponentOptions);
 }
-export declare type VNodeChildren = Array<VNode | string | null> | string;
+export declare type VNodeChildren = Array<VNode | string | /*VNodeChildren |*/ null> | string;
 export interface VNodeComponentOptions {
     Ctor: any;
     propsData: Object | null;

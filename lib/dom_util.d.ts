@@ -1,4 +1,5 @@
-export declare const UA: string, isIE9: boolean | "";
+export declare const UA: string, // browser sniffing from vuejs
+isIE9: boolean | "";
 export declare const enum Keys {
     BACKSPACE = 8,
     ENTER = 13,
@@ -6,7 +7,7 @@ export declare const enum Keys {
     LEFT = 37,
     UP = 38,
     RIGHT = 39,
-    DOWN = 40,
+    DOWN = 40
 }
 export declare function setPopup(p: any): void;
 export declare function getPopup(): any;

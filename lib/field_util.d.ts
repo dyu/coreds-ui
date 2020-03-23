@@ -1,6 +1,6 @@
 import { FieldType } from 'coreds/lib/types';
 export declare function updateSelect(el: any, value: any): void;
-export declare type FnUpdate = (el, value) => any;
+export declare type FnUpdate = (el: any, value: any) => any;
 export declare function updateBoolCheckbox(el: any, value: any): void;
 export declare function updateBoolSelect(el: any, value: any): void;
 export declare function updateTime(el: any, value: any): void;
